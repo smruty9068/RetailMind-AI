@@ -1,23 +1,87 @@
-# RetailMind AI – Customer Churn Prediction
+# RetailMind-AI: Customer Churn Prediction
 
 ## 1. Project Overview
 
-RetailMind AI is a machine learning project designed to predict customer churn in the telecommunications industry.
+RetailMind-AI is an incremental machine learning project focused on predicting customer churn using the Telco Customer Churn dataset.
 
-Customer churn occurs when a customer stops using a company's services. By analysing customer information, this project identifies customers who are likely to leave, helping businesses take proactive retention measures.
+Customer churn occurs when customers stop using a company's services. Predicting which customers are likely to leave helps businesses identify at-risk customers and develop better customer retention strategies.
 
-The project covers data preprocessing, machine learning model training, customer prediction, model evaluation, and model comparison.
+This project follows a four-day development workflow, progressing from baseline model development to model comparison, hyperparameter tuning, feature engineering and ensemble learning.
 
-## 2. Project Objectives
+---
 
-- Analyse customer data to identify churn patterns.
-- Preprocess numerical and categorical features.
-- Build a machine learning pipeline for churn prediction.
-- Compare multiple classification algorithms.
-- Select a champion model based on evaluation metrics.
-- Generate churn predictions and probabilities for customers.
+## 2. Problem Statement
 
-## 3. Project Structure
+Customer retention is an important challenge for businesses.
+
+Losing existing customers can affect revenue, profitability and long-term business growth.
+
+The objective of this project is to develop a machine learning pipeline that predicts whether a customer is likely to churn based on their demographic information, account details, subscribed services and billing information.
+
+### Project Objectives
+
+- Analyse and prepare customer data.
+- Perform data cleaning and preprocessing.
+- Build a baseline classification model.
+- Compare multiple machine learning algorithms.
+- Perform hyperparameter tuning.
+- Engineer meaningful features.
+- Apply feature selection and dimensionality reduction.
+- Implement ensemble learning techniques.
+- Evaluate models using classification metrics.
+- Save a reusable final prediction pipeline.
+
+---
+
+## 3. Dataset Description
+
+**Dataset:** Telco Customer Churn
+
+The dataset contains customer information, including:
+
+- Customer demographics
+- Gender and senior citizen status
+- Tenure
+- Contract information
+- Internet and telephone services
+- Monthly charges
+- Total charges
+- Churn status
+
+**Dataset size:** 7,043 records and 21 original columns.
+
+The `customerID` column was removed because it does not contribute meaningful predictive information.
+
+The target variable is `Churn`:
+
+| Value | Meaning |
+|---|---|
+| 0 | Customer does not churn |
+| 1 | Customer churns |
+
+---
+
+## 4. Technologies and Libraries
+
+### Programming Language
+- Python
+
+### Libraries
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
+- Joblib
+
+### Development Environment
+- JupyterLite
+- Jupyter Notebook
+- Git
+- GitHub
+
+---
+
+## 5. Project Structure
 
 ```text
 RetailMind-AI/
@@ -28,11 +92,17 @@ RetailMind-AI/
 ├── Notebooks/
 │   ├── Train.ipynb
 │   ├── predict.ipynb
-│   └── predict_cmp.ipynb
+│   ├── predict_cmp.ipynb
+│   ├── Day2_Model_Comparison.ipynb
+│   ├── Day3_Model_Tuning.ipynb
+│   └── Day4_Feature_Engineering.ipynb
 │
 ├── models/
 │   ├── churn_pipeline.joblib
-│   └── champion_churn_pipeline.joblib
+│   ├── champion_churn_pipeline.joblib
+│   ├── day2_champion_model.joblib
+│   ├── churn_v3.joblib
+│   └── final_churn_model.joblib
 │
 ├── Src/
 │   ├── __init__.py
@@ -42,67 +112,42 @@ RetailMind-AI/
 └── README.md
 ```
 
-## 4. Project Workflow
+---
 
-The following flowchart represents the complete machine learning workflow.
+# 6. Project Development
 
-```mermaid
-flowchart TD
-    A["Customer Churn Dataset"] --> B["Data Loading"]
-    B --> C["Data Preprocessing"]
-    C --> D["Handle Missing Values"]
-    D --> E["Encode Categorical Features"]
-    E --> F["Scale Numerical Features"]
-    F --> G["Train-Test Split"]
-    G --> H["Baseline Model: Logistic Regression"]
-    H --> I["Model Evaluation"]
-    I --> J["Model Comparison"]
-    J --> K["Decision Tree"]
-    J --> L["Linear SVC"]
-    J --> M["Random Forest"]
-    K --> N["Champion Model Selection"]
-    L --> N
-    M --> N
-    N --> O["Save Trained Model"]
-    O --> P["Load Model Pipeline"]
-    P --> Q["Customer Churn Prediction"]
-    Q --> R["Prediction and Churn Probability"]
-```
+## Day 1 – Baseline Model Development
 
-## 5. Data Preprocessing
+The first day focused on understanding the dataset, preparing the data and developing an initial churn prediction model.
 
-The dataset is preprocessed before training the machine learning models.
+### Tasks Performed
 
-The preprocessing steps include:
+- Loaded the Telco Customer Churn dataset.
+- Removed unnecessary customer identifiers.
+- Converted `TotalCharges` into numeric format.
+- Handled missing values.
+- Encoded categorical variables.
+- Applied numerical feature scaling.
+- Built a machine learning pipeline.
+- Trained a Logistic Regression classifier.
+- Saved the trained pipeline using Joblib.
+- Generated customer churn predictions.
 
-- Converting `TotalCharges` into numeric format.
-- Handling missing values.
-- Removing the `customerID` column.
-- Encoding the target variable (`Churn`).
-- Applying median imputation and StandardScaler to numerical features.
-- Applying OneHotEncoder to categorical features.
-- Splitting the dataset into training and testing sets.
+### Preprocessing Techniques
 
-A Scikit-learn Pipeline and ColumnTransformer are used to combine preprocessing and model training.
+**Numerical Features**
+- Median imputation
+- StandardScaler
 
-## 6. Machine Learning Models
+**Categorical Features**
+- Most frequent value imputation
+- OneHotEncoder
 
-The project evaluates the following classification algorithms:
+### Baseline Model
 
-| Model | Purpose |
-|---|---|
-| Logistic Regression | Baseline model |
-| Decision Tree | Challenger model |
-| Linear SVC | Challenger model |
-| Random Forest | Challenger model |
+Algorithm: Logistic Regression
 
-The baseline model is trained first. Challenger models are then compared to identify the best-performing model.
-
-## 7. Model Performance
-
-### Baseline Model – Logistic Regression
-
-The baseline model achieved the following results:
+### Performance Results
 
 | Evaluation Metric | Score |
 |---|---:|
@@ -111,107 +156,41 @@ The baseline model achieved the following results:
 | Recall | 55.89% |
 | ROC-AUC | 83.89% |
 
-### Champion Model Selection
+### Outcome
 
-The challenger models are evaluated using Recall and ROC-AUC.
+A baseline Logistic Regression pipeline was successfully developed and saved.
 
-**Selected Champion Model: Linear SVC**
+The model established the initial performance benchmark for subsequent experiments.
 
-The champion model is saved as:
+---
 
-`champion_churn_pipeline.joblib`
+## Day 2 – Machine Learning Model Comparison
 
-## 8. Prediction Output
+The second day focused on comparing different classification algorithms to identify models with better predictive performance.
 
-The prediction notebook loads the saved machine learning pipeline and generates churn predictions for customer records.
+### Algorithms Compared
 
-The output includes:
+1. Decision Tree Classifier
+2. Random Forest Classifier
+3. Support Vector Machine (SVM)
 
-- Customer-level churn predictions.
-- Predicted churn probabilities.
-- Results for individual customer records.
+### Tasks Performed
 
-### Prediction Output Format
+- Reused the preprocessing pipeline.
+- Split the dataset into training and testing sets.
+- Trained multiple classification algorithms.
+- Evaluated model performance.
+- Compared accuracy, precision, recall and ROC-AUC.
+- Selected a Day 2 champion model.
 
-| Customer | Churn Prediction | Churn Probability |
-|---|---|---|
-| Customer 1 | Generated by model | Generated by model |
-| Customer 2 | Generated by model | Generated by model |
-| Customer 3 | Generated by model | Generated by model |
+### Dataset Splitting
 
-*Note: Actual prediction values are generated when the prediction notebook is executed.*
+- Training set: 75%
+- Testing set: 25%
+- Random state: 67
+- Stratified splitting
 
-## 9. Model Comparison
-
-The model comparison notebook evaluates different machine learning algorithms to identify the champion model.
-
-The comparison considers:
-
-- Accuracy
-- Precision
-- Recall
-- ROC-AUC
-
-Recall is particularly important in churn prediction because identifying customers who are likely to leave helps businesses take preventive action.
-
-## 10. Technologies Used
-
-- **Programming Language:** Python
-- **Data Processing:** Pandas, NumPy
-- **Machine Learning:** Scikit-learn
-- **Model Serialization:** Joblib
-- **Development Environment:** Jupyter Notebook
-- **Version Control:** Git and GitHub
-
-## 11. Installation and Execution
-
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/smruty9068/RetailMind-AI.git
-```
-
-### Step 2: Navigate to the Project Directory
-
-```bash
-cd RetailMind-AI
-```
-
-### Step 3: Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4: Open Jupyter Notebook
-
-```bash
-jupyter notebook
-```
-
-### Step 5: Execute the Notebooks
-
-Run the notebooks in the following order:
-
-1. `Train.ipynb` – Data preprocessing and baseline model training.
-2. `predict.ipynb` – Customer churn prediction.
-3. `predict_cmp.ipynb` – Model comparison and champion model selection.
-
-## 12. Project Progress
-
-### Day 1 – Completed
-- Created project directory structure.
-- Performed data preprocessing.
-- Trained Logistic Regression baseline model.
-- Generated customer churn predictions.
-- Compared machine learning models.
-- Saved trained model pipelines.
-
-### Day 2 – Completed
-
-**Objective:** Train and compare Decision Tree, Random Forest and SVM classifiers.
-
-**Models Evaluated:**
+### Model Comparison Results
 
 | Model | Accuracy | Precision | Recall | ROC-AUC |
 |---|---:|---:|---:|---:|
@@ -219,18 +198,389 @@ Run the notebooks in the following order:
 | SVM | 79.39% | 64.36% | 49.89% | 79.73% |
 | Random Forest | 78.36% | 61.44% | 49.46% | 80.41% |
 
-**Champion Model: Decision Tree**
+### Champion Model
 
-Selection criteria:
-- Highest Recall: 50.32%
-- Highest ROC-AUC: 82.24%
+**Decision Tree Classifier**
 
-**Day 2 Deliverables:**
-- Trained three classification models.
-- Evaluated models using Accuracy, Precision, Recall and ROC-AUC.
-- Selected the champion model.
-- Saved `day2_champion_model.joblib`.
-- Uploaded the notebook and model to GitHub.
+The Decision Tree model was selected as the Day 2 champion based on its recall and ROC-AUC performance among the compared models.
 
-### Upcoming Work
-Further model improvements and project enhancements will be added in upcoming development days.
+The trained model was saved as:
+
+`day2_champion_model.joblib`
+
+---
+
+## Day 3 – Hyperparameter Tuning and Model Optimization
+
+The third day focused on improving model performance through hyperparameter optimization and model evaluation.
+
+### Algorithms Tuned
+
+- Decision Tree
+- Random Forest
+- Support Vector Machine
+
+### Techniques Used
+
+**1. GridSearchCV**
+
+GridSearchCV was used to identify suitable hyperparameter combinations through cross-validation.
+
+Configuration:
+
+- Cross-validation folds: 3
+- Scoring metric: Recall
+
+**2. Learning Curves**
+
+Learning curves were generated to understand model performance as the training dataset size increased.
+
+**3. Bias-Variance Analysis**
+
+Training and validation performance were examined to understand potential underfitting and overfitting.
+
+### Final Test Results
+
+| Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---:|---:|---:|---:|
+| Random Forest | 80.12% | 64.59% | 55.46% | 82.96% |
+| SVM | 79.10% | 62.41% | 53.32% | 82.78% |
+| Decision Tree | 78.25% | 60.50% | 51.82% | 81.95% |
+
+### Champion Model
+
+**Tuned Random Forest Classifier**
+
+Random Forest achieved the highest recall and ROC-AUC among the three tuned models.
+
+The trained model was saved as:
+
+`churn_v3.joblib`
+
+---
+
+## Day 4 – Feature Engineering, Dimensionality Reduction and Ensemble Learning
+
+The fourth day focused on improving the feature representation and evaluating ensemble learning techniques.
+
+### 1. Feature Engineering
+
+The following features were created:
+
+**TenureGroup**
+
+Customers were grouped based on their tenure:
+
+- New
+- Short
+- Medium
+- Long
+
+**ChargePerTenure**
+
+A feature was created using total charges divided by tenure plus one.
+
+**HighMonthlyCharge**
+
+A binary indicator identifying customers whose monthly charges are above the dataset median.
+
+**LongTermContract**
+
+A binary indicator identifying customers with contracts other than month-to-month.
+
+### 2. Feature Selection
+
+SelectKBest with Mutual Information was applied to identify informative features.
+
+- Selection method: SelectKBest
+- Scoring function: mutual_info_classif
+- Selected features: 15
+
+Feature selection was fitted using training data.
+
+### 3. Principal Component Analysis (PCA)
+
+PCA was applied to reduce the dimensionality of the processed feature space.
+
+| Parameter | Result |
+|---|---:|
+| Original Features | 52 |
+| PCA Components | 20 |
+| Variance Retained | 95.47% |
+
+PCA reduced the feature space from 52 dimensions to 20 while retaining approximately 95.47% of the variance.
+
+### 4. Ensemble Learning
+
+The following ensemble models were evaluated:
+
+- Bagging Classifier
+- Random Forest Classifier
+
+The Bagging Classifier used Decision Tree estimators.
+
+Random Forest was evaluated as a separate ensemble model.
+
+### Ensemble Model Results
+
+| Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---:|---:|---:|---:|
+| Bagging | 79.61% | 63.99% | 52.89% | 83.21% |
+| Random Forest | 79.22% | 63.05% | 52.25% | 82.71% |
+
+### PCA-Based Ensemble Results
+
+Bagging was also evaluated using PCA-transformed features.
+
+| Metric | PCA Bagging |
+|---|---:|
+| Accuracy | 79.67% |
+| Precision | 64.61% |
+| Recall | 51.61% |
+| ROC-AUC | 82.81% |
+
+### Day 4 Model Selection
+
+Bagging using selected features achieved the highest recall and ROC-AUC among the Day 4 ensemble experiments.
+
+Therefore, it was selected as the Day 4 champion candidate.
+
+The final pipeline was saved as:
+
+`final_churn_model.joblib`
+
+It includes:
+
+- Data preprocessing
+- Feature selection
+- Bagging classifier
+
+**Note:** XGBoost installation was attempted but could not be completed because its compiled dependencies were unavailable in the JupyterLite environment. Therefore, XGBoost results are not included in the model comparison.
+
+---
+
+# 7. Overall Model Comparison
+
+The following table summarises the selected models from each development stage.
+
+| Development Stage | Selected Model | Accuracy | Recall | ROC-AUC |
+|---|---|---:|---:|---:|
+| Day 1 | Logistic Regression | 79.84% | 55.89% | 83.89% |
+| Day 2 | Decision Tree | 78.48% | 50.32% | 82.24% |
+| Day 3 | Random Forest | 80.12% | 55.46% | 82.96% |
+| Day 4 | Bagging | 79.61% | 52.89% | 83.21% |
+
+**Important:** The models were developed and evaluated in different experimental stages. The results above are the recorded results from each stage, not a single controlled comparison of all four models.
+
+---
+
+# 8. Machine Learning Workflow
+
+The overall project workflow is illustrated below.
+
+```mermaid
+flowchart TD
+
+    A[Telco Customer Churn Dataset]
+    B[Data Loading and Inspection]
+    C[Data Cleaning]
+    D[Exploratory Data Preparation]
+    E[Feature Engineering]
+    F[Data Preprocessing]
+    G[Feature Selection]
+    H[PCA Dimensionality Reduction]
+    I[Model Training]
+    J[Model Comparison]
+    K[Hyperparameter Tuning]
+    L[Ensemble Learning]
+    M[Model Evaluation]
+    N[Final Model Selection]
+    O[Save Model using Joblib]
+    P[Customer Churn Prediction]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    F --> H
+    G --> I
+    H --> I
+    I --> J
+    J --> K
+    K --> L
+    L --> M
+    M --> N
+    N --> O
+    O --> P
+```
+
+---
+
+# 9. Prediction Example
+
+The final trained pipeline can be loaded and used to generate predictions for new customer records.
+
+### Loading the Model
+
+```python
+import joblib
+
+model = joblib.load(
+    "models/final_churn_model.joblib"
+)
+```
+
+### Generating Predictions
+
+```python
+predictions = model.predict(X_test.head(5))
+
+print("Predictions:", predictions)
+```
+
+### Example Output
+
+```text
+Predictions: [0 1 1 0 0]
+```
+
+### Prediction Interpretation
+
+| Prediction | Meaning |
+|---|---|
+| 0 | Customer is predicted not to churn |
+| 1 | Customer is predicted to churn |
+
+The final pipeline accepts raw customer feature records and performs preprocessing and feature selection before generating predictions.
+
+---
+
+# 10. Reusable Preprocessing Module
+
+The project includes a reusable preprocessing module:
+
+`Src/preprocessing.py`
+
+It contains:
+
+### clean_data(df)
+
+- Removes unnecessary customer identifiers.
+- Converts TotalCharges into numeric format.
+- Converts the Churn target into binary values.
+
+### create_preprocessor(X)
+
+- Identifies numerical and categorical columns.
+- Handles missing values.
+- Applies StandardScaler to numerical features.
+- Applies OneHotEncoder to categorical features.
+- Returns a ColumnTransformer preprocessing pipeline.
+
+This module helps organise reusable preprocessing logic separately from the experiment notebooks.
+
+---
+
+# 11. Installation and Requirements
+
+Clone the repository:
+
+```bash
+git clone https://github.com/smruty9068/RetailMind-AI.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd RetailMind-AI
+```
+
+Install the required libraries:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Requirements
+
+The project uses the following Python libraries:
+
+- pandas
+- numpy
+- scikit-learn
+- joblib
+- matplotlib
+
+---
+
+# 12. Key Learnings
+
+Through this project, the following concepts were explored:
+
+- Data cleaning and preprocessing
+- Handling missing values
+- Numerical scaling
+- Categorical encoding
+- Machine learning pipelines
+- Classification algorithms
+- Model comparison
+- Cross-validation
+- Hyperparameter tuning
+- Learning curves
+- Bias-variance analysis
+- Feature engineering
+- Feature selection
+- Principal Component Analysis
+- Ensemble learning
+- Model serialization using Joblib
+- Git and GitHub version control
+
+---
+
+# 13. Future Improvements
+
+Potential improvements include:
+
+- Training and evaluating XGBoost in a compatible environment.
+- Improving churn recall.
+- Performing additional feature engineering.
+- Evaluating additional ensemble algorithms.
+- Testing the final model on new customer data.
+- Developing a FastAPI-based prediction service.
+- Creating an interactive customer churn prediction dashboard.
+- Monitoring model performance over time.
+
+---
+
+# 14. Conclusion
+
+RetailMind-AI demonstrates an incremental machine learning workflow for telecom customer churn prediction.
+
+The project progresses through four development stages:
+
+1. Baseline model development
+2. Machine learning model comparison
+3. Hyperparameter tuning and optimization
+4. Feature engineering, dimensionality reduction and ensemble learning
+
+Different algorithms and preprocessing techniques were evaluated to understand their impact on customer churn prediction.
+
+The final Day 4 pipeline combines preprocessing, feature selection and Bagging classification into a reusable model that can generate churn predictions from customer records.
+
+The project demonstrates the practical application of machine learning concepts, model evaluation, feature engineering and version-controlled development.
+
+---
+
+## 15. Repository
+
+**GitHub Repository:**
+
+https://github.com/smruty9068/RetailMind-AI
+
+**Project:** RetailMind-AI
+
+**Domain:** Machine Learning / Customer Churn Prediction
+
+**Status:** Four development stages completed.
