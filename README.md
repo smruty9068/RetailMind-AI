@@ -200,24 +200,37 @@ Run the notebooks in the following order:
 ## 12. Project Progress
 
 ### Day 1 – Completed
-
-- Created the project directory structure.
-- Loaded and explored the customer churn dataset.
+- Created project directory structure.
 - Performed data preprocessing.
-- Built a Logistic Regression baseline pipeline.
-- Evaluated the baseline model.
+- Trained Logistic Regression baseline model.
 - Generated customer churn predictions.
-- Compared multiple classification models.
-- Selected the champion model.
+- Compared machine learning models.
 - Saved trained model pipelines.
-- Uploaded project files to GitHub.
+
+### Day 2 – Completed
+
+**Objective:** Train and compare Decision Tree, Random Forest and SVM classifiers.
+
+**Models Evaluated:**
+
+| Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---:|---:|---:|---:|
+| Decision Tree | 78.48% | 61.52% | 50.32% | 82.24% |
+| SVM | 79.39% | 64.36% | 49.89% | 79.73% |
+| Random Forest | 78.36% | 61.44% | 49.46% | 80.41% |
+
+**Champion Model: Decision Tree**
+
+Selection criteria:
+- Highest Recall: 50.32%
+- Highest ROC-AUC: 82.24%
+
+**Day 2 Deliverables:**
+- Trained three classification models.
+- Evaluated models using Accuracy, Precision, Recall and ROC-AUC.
+- Selected the champion model.
+- Saved `day2_champion_model.joblib`.
+- Uploaded the notebook and model to GitHub.
 
 ### Upcoming Work
-
-Further improvements and enhancements will be added in the upcoming development days.
-
-## 13. Author
-
-**GitHub:** [@smruty9068](https://github.com/smruty9068)
-
-**Repository:** [RetailMind-AI](https://github.com/smruty9068/RetailMind-AI)
+Further model improvements and project enhancements will be added in upcoming development days.
