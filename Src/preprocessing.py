@@ -25,6 +25,84 @@ def clean_data(df):
     return df
 
 
+def engineer_features(df):
+    """Create domain-specific features for customer churn prediction."""
+
+    df = df.copy()
+
+    # 1. Tenure-based features
+    if "tenure" in df.columns:
+
+        df["tenure_group"] = pd.cut(
+            df["tenure"],
+            bins=[-1, 12, 24, 48, 72],
+            labels=["New", "Short-term", "Medium-term", "Long-term"]
+        )
+
+    # 2. Charge-based features
+    if {"MonthlyCharges", "TotalCharges", "tenure"}.issubset(df.columns):
+
+        df["avg_monthly_charge"] = (
+            df["TotalCharges"] /
+            df["tenure"].replace(0, 1)
+        )
+
+        df["charge_ratio"] = (
+            df["MonthlyCharges"] /
+            (df["TotalCharges"] + 1)
+        )
+
+    # 3. Contract-based features
+    if "Contract" in df.columns:
+
+        df["is_month_to_month"] = (
+            df["Contract"] == "Month-to-month"
+        ).astype(int)
+
+        df["is_one_year_contract"] = (
+            df["Contract"] == "One year"
+        ).astype(int)
+
+        df["is_two_year_contract"] = (
+            df["Contract"] == "Two year"
+        ).astype(int)
+
+    # 4. Service-based features
+    service_columns = [
+        "OnlineSecurity",
+        "TechSupport",
+        "OnlineBackup",
+        "DeviceProtection",
+        "StreamingTV",
+        "StreamingMovies"
+    ]
+
+    for col in service_columns:
+        if col in df.columns:
+            df[f"has_{col.lower()}"] = (
+                df[col] == "Yes"
+            ).astype(int)
+
+    if "InternetService" in df.columns:
+
+        df["has_internet"] = (
+            df["InternetService"] != "No"
+        ).astype(int)
+
+    available_services = [
+        col for col in service_columns if col in df.columns
+    ]
+
+    if available_services:
+
+        df["service_count"] = sum(
+            (df[col] == "Yes").astype(int)
+            for col in available_services
+        )
+
+    return df
+
+
 def create_preprocessor(X):
     """Create preprocessing for numerical and categorical features."""
 
@@ -50,4 +128,3 @@ def create_preprocessor(X):
     ])
 
     return preprocessor
-    
