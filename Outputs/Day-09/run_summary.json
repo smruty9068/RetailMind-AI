@@ -1,0 +1,13 @@
+{
+    "model": "yolov8n.pt",
+    "input_image": "D:\\RetailMind-AI\\Data\\Day-09\\bus.jpg",
+    "confidence_threshold": 0.25,
+    "nms_iou_threshold": 0.45,
+    "device": "cpu",
+    "detection_count": 6,
+    "detected_classes": {
+        "person": 4,
+        "bus": 1,
+        "stop sign": 1
+    }
+}
