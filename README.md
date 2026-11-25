@@ -1,240 +1,286 @@
-# Day 7 – Transfer Learning & Object Detection
-## RetailMind AI – Computer Vision Module
+# RetailMind-AI
+
+An evolving, hands-on retail intelligence and machine learning project. The repository documents a day-wise learning and implementation journey across classical machine learning, feature engineering, neural networks, computer vision, sequence modelling, and generative deep learning.
+
+> **Project status:** Days 1–11 are documented below. The work uses multiple datasets and focused demonstrations rather than one single end-to-end retail dataset. Some later-day examples use synthetic data for learning and should not be interpreted as validated production models.
 
 ---
 
-## 1. Overview
+## Table of Contents
 
-Day 7 extends the Computer Vision capabilities of RetailMind AI by exploring Transfer Learning and Object Detection.
+- [Project Overview](#project-overview)
+- [Objectives](#objectives)
+- [Day-wise Progress](#day-wise-progress)
+- [Datasets](#datasets)
+- [Technology Stack](#technology-stack)
+- [Repository Structure](#repository-structure)
+- [Setup](#setup)
+- [How to Run](#how-to-run)
+- [Current Scope and Limitations](#current-scope-and-limitations)
+- [Future Improvements](#future-improvements)
 
-The objective is to improve product image classification using pretrained CNN architectures such as VGG16 and ResNet50 and understand how object detection models such as YOLO can locate products within catalog images.
+---
 
-This increment builds upon the Fashion-MNIST image classification work introduced in Day 6.
+## Project Overview
 
-## 2. Objectives
+RetailMind-AI explores how machine learning and deep learning techniques can support retail-related intelligence tasks. The project progresses from customer churn modelling and feature engineering to image classification, product localization, demand sequence forecasting, and synthetic data generation.
 
-- Understand Transfer Learning and pretrained CNN architectures.
-- Study VGG16 and ResNet50.
-- Understand frozen layers and fine-tuning.
-- Explore object localization using bounding boxes.
-- Understand YOLO-based product detection.
-- Identify real-world applications of object detection in retail.
+The work is organized as a sequence of Jupyter notebooks. Each stage introduces a technique, applies it to a suitable dataset or demonstration, evaluates or visualizes the result where applicable, and saves selected models or outputs.
 
-## 3. Dataset
+### Main problem areas explored
 
-**Dataset:** Fashion-MNIST
+- Customer churn prediction and customer-retention analysis.
+- Data preprocessing, feature engineering, feature selection, and model comparison.
+- Neural-network-based classification.
+- Fashion product image classification and transfer learning.
+- Image explainability, foreground segmentation, and object detection.
+- Sequence-to-sequence forecasting with attention.
+- Synthetic retail customer profile generation using GANs and VAEs.
 
-Fashion-MNIST contains 70,000 grayscale clothing images belonging to 10 categories.
+## Objectives
 
-| Dataset | Images |
-|---|---:|
-| Training | 60,000 |
-| Testing | 10,000 |
-| Total | 70,000 |
+1. Build a structured workflow for loading, cleaning, preparing, and analysing data.
+2. Compare classical machine learning models using appropriate evaluation metrics.
+3. Improve model performance through hyperparameter tuning and feature engineering.
+4. Explore neural networks and convolutional neural networks for classification.
+5. Apply transfer learning to image classification.
+6. Study computer-vision techniques for explaining, segmenting, and detecting objects in images.
+7. Understand sequence modelling and attention for multi-step forecasting.
+8. Explore generative models for creating synthetic data.
+9. Maintain reusable notebooks, trained models, and generated outputs in a GitHub repository.
 
-Image dimensions: 28 × 28 pixels.
+---
 
-Categories:
-1. T-shirt/Top
-2. Trouser
-3. Pullover
-4. Dress
-5. Coat
-6. Sandal
-7. Shirt
-8. Sneaker
-9. Bag
-10. Ankle Boot
+## Day-wise Progress
 
-## 4. Technologies Used
+| Day | Focus | Work covered |
+|---|---|---|
+| **Day 1** | Dataset understanding and initial exploration | Began the project with retail/customer analytics context and initial inspection of the customer churn data. |
+| **Day 2** | Baseline model comparison | Prepared the Telco Customer Churn dataset, handled missing/numeric and categorical data, built preprocessing pipelines, and compared Decision Tree, Random Forest, and SVM classifiers. Selected a champion model using evaluation results. |
+| **Day 3** | Model tuning | Applied `GridSearchCV` to tune Decision Tree, Random Forest, and SVM pipelines. Used cross-validation, recall-based model selection, learning curves, and final test metrics. Saved the tuned champion model. |
+| **Day 4** | Feature engineering and ensemble learning | Created tenure groups, charge-related features, high-monthly-charge and long-term-contract indicators. Applied preprocessing, feature selection with `SelectKBest`, PCA, and ensemble methods including Bagging and Random Forest. Also evaluated HistGradientBoosting and saved model pipelines. |
+| **Day 5** | Artificial Neural Network (ANN) | Built an `MLPClassifier` with hidden layers, ReLU activation, Adam optimization, and early stopping. Evaluated Accuracy, Precision, Recall, F1-score, and ROC-AUC, plotted the training loss curve, and compared it with earlier models. |
+| **Day 6** | Convolutional Neural Network (CNN) | Used Fashion-MNIST (10 clothing categories). Performed normalization, stratified train/validation/test splitting, class weighting, and data augmentation. Built and trained a CNN with convolution, max-pooling, dropout, and dense layers. Evaluated classification performance and saved the model and training history. |
+| **Day 7** | Transfer learning with VGG16 | Resized Fashion-MNIST images, converted grayscale images to RGB, and used pretrained VGG16 as a feature extractor. Trained a classification head, fine-tuned the last VGG16 layers with a lower learning rate, evaluated the model, and saved `fashion_vgg16.keras`. |
+| **Day 8** | Grad-CAM and image segmentation | Explored model explainability using Grad-CAM and generated a heatmap for image regions influencing a prediction. Applied Otsu thresholding and morphological operations to create a foreground mask, then generated transparent and white-background product-style images. |
+| **Day 9** | Object detection with YOLO | Ran an object-detection demonstration on an input image and saved detected-object crops, detection results, a summary, and visualization outputs. This demonstrates object localization and detection rather than a complete retail shelf-monitoring system. |
+| **Day 10** | Seq2Seq and Attention | Built an LSTM encoder-decoder sequence model for a retail-demand-style forecasting example. Used the previous 30 time steps to predict the next 7, trained with chronological train/validation/test splits, evaluated with MAE and RMSE, and explored attention-weight visualization. |
+| **Day 11** | GANs and Variational Autoencoders (VAEs) | Built a GAN with a Generator and Discriminator, and a VAE with an Encoder, latent sampling, and Decoder. Used simulated customer features (average basket value and monthly visits) to explore synthetic profile generation, reconstruction, and comparison of generative approaches. |
 
-- Python
-- NumPy
-- Pandas
-- Matplotlib
-- Pillow (PIL)
-- Jupyter Notebook
-- Fashion-MNIST
+### Important notes on progress
 
-## 5. Transfer Learning
+- Day 1 is summarized as the initial project exploration; the current repository tree does not show a separately named Day 1 notebook.
+- Day 8 uses Fashion-MNIST's simple background for the segmentation demonstration. The generated mask is not a general-purpose segmentation model.
+- Day 9's object-detection example is a demonstration on an image, not evidence of a deployed real-time retail camera system.
+- Day 10 and Day 11 use locally generated synthetic data. Their results demonstrate model workflows and are not real-world retail performance claims.
+- GAN training can be unstable; generated samples need careful quality checks before any downstream use.
 
-Transfer Learning is a technique in which a model trained on a large dataset is reused for a different but related task.
+---
 
-Instead of training a CNN from scratch, we reuse the knowledge learned by an existing model.
+## Datasets
 
-### Pretrained Architectures Studied
+The project uses different datasets depending on the task.
 
-**VGG16**
-- Uses multiple 3 × 3 convolution filters.
-- Learns hierarchical image features.
-- Commonly used for image classification.
+### 1. Telco Customer Churn
 
-**ResNet50**
-- Uses residual connections.
-- Helps train deeper neural networks.
-- Reuses pretrained visual features.
+**Repository file:** `Data/Telco-Customer-Churn.csv`
 
-### Transfer Learning Workflow
+Used in the early machine-learning stages for preprocessing, churn classification, model comparison, hyperparameter tuning, feature engineering, ensemble learning, and ANN classification.
 
-1. Load a pretrained CNN backbone.
-2. Freeze the base convolutional layers.
-3. Extract image features.
-4. Add a new classification head.
-5. Train the classification head.
-6. Unfreeze selected top layers.
-7. Fine-tune using a smaller learning rate.
+The workflow includes:
+- Converting `TotalCharges` to numeric values.
+- Removing the customer identifier.
+- Encoding the `Churn` target (`Yes` / `No`) as a binary label.
+- Imputing missing values.
+- Scaling numerical features.
+- One-hot encoding categorical features.
 
-### Proposed Architecture
+### 2. Fashion-MNIST
 
-Input Image (224 × 224 × 3)
+Loaded through `keras.datasets.fashion_mnist`.
 
-↓
+Used for CNN image classification, transfer learning, Grad-CAM exploration, and foreground segmentation.
 
-Pretrained ResNet50 Backbone
+It contains 70,000 grayscale images across 10 clothing categories, each with a size of 28 × 28 pixels.
 
-↓
+### 3. Synthetic retail-demand time series
 
-Global Average Pooling
+Generated within the Day 10 notebook for demonstrating sequence-to-sequence forecasting. The series includes trend, weekly seasonality, yearly seasonality, and random noise.
 
-↓
+### 4. Synthetic retail customer profiles
 
-Dense Layer (128 neurons, ReLU)
+Generated within the Day 11 notebook. The two features are:
+- `avg_basket_value`
+- `monthly_visits`
 
-↓
+This data is simulated and is used to demonstrate GAN and VAE training.
 
-Dropout (0.3)
+---
 
-↓
+## Technology Stack
 
-Output Layer (10 neurons, Softmax)
+| Area | Tools and libraries |
+|---|---|
+| Programming | Python |
+| Notebooks | Jupyter Notebook |
+| Data handling | NumPy, Pandas |
+| Visualization | Matplotlib, Seaborn |
+| Classical ML | Scikit-learn |
+| Model persistence | Joblib |
+| Deep learning | TensorFlow, Keras |
+| Computer vision | OpenCV, Pillow |
+| Object detection | Ultralytics YOLO (Day 9 environment) |
+| Version control | Git and GitHub |
 
-**Note:** This architecture was studied and documented. Actual pretrained-model training and fine-tuning were not executed in the current environment.
+---
 
-## 6. Object Detection
-
-Object Detection identifies and locates objects within an image.
-
-Unlike image classification, which assigns one category to an entire image, object detection identifies individual objects and their locations using bounding boxes.
-
-### YOLO – You Only Look Once
-
-YOLO is a real-time object detection framework.
-
-Its main capabilities include:
-
-- Object identification.
-- Bounding-box prediction.
-- Class prediction.
-- Confidence scoring.
-- Detection of multiple objects in one image.
-
-### Retail Applications
-
-1. **Catalog Quality Assurance**
-   - Identify incorrectly framed product images.
-   - Detect unexpected objects.
-
-2. **Multi-Product Images**
-   - Locate multiple products within one image.
-   - Extract individual product regions.
-
-3. **Shelf Analytics**
-   - Locate products on retail shelves.
-   - Support inventory monitoring.
-
-4. **Visual Product Search**
-   - Identify products within larger images.
-   - Send detected regions to a classification module.
-
-**Note:** A pretrained YOLO model was not executed because Ultralytics was unavailable in the current environment.
-
-## 7. Product Localization Demonstration
-
-A basic foreground-based localization technique was implemented using Pillow and NumPy.
-
-### Implementation Steps
-
-1. Load a Fashion-MNIST image.
-2. Resize the image for visualization.
-3. Convert the image into a NumPy array.
-4. Apply a pixel-intensity threshold.
-5. Identify foreground pixel coordinates.
-6. Calculate minimum and maximum coordinates.
-7. Draw a bounding box around the foreground object.
-
-The resulting image demonstrates basic product localization.
-
-**Important:** This is threshold-based localization, not trained YOLO object detection. It is suitable only for simple images with sufficiently contrasting backgrounds.
-
-## 8. Project Structure
+## Repository Structure
 
 ```text
 RetailMind-AI/
 │
-├── Notebooks/
-│   ├── Day01.ipynb
-│   ├── Day02.ipynb
-│   ├── Day03.ipynb
-│   ├── Day04_Feature_Engineering.ipynb
-│   ├── Day05_ANN_Neural_Networks.ipynb
-│   ├── Day06.ipynb
-│   └── Day07.ipynb
+├── Data/
+│   ├── Telco-Customer-Churn.csv
+│   └── Day-09/
+│       └── bus.jpg
 │
 ├── Models/
-│   ├── day6_fashion_classifier.joblib
-│   └── day7_product_localization.png
+│   ├── day2_champion_model.joblib
+│   ├── churn_v3.joblib
+│   ├── final_churn_model.joblib
+│   ├── day4_random_forest.joblib
+│   ├── day4_hist_gradient_boosting.joblib
+│   ├── day5_ann_model.joblib
+│   ├── fashion_cnn.keras
+│   ├── fashion_vgg16.keras
+│   └── retail_seq2seq_attention.keras
+│
+├── Notebooks/
+│   ├── Day2_Model_Comparison.ipynb
+│   ├── Day3_Model_Tuning.ipynb
+│   ├── Day4_Feature_Engineering.ipynb
+│   ├── Day4_Feature_Engineering_Ensemble.ipynb
+│   ├── Day5_ANN_Neural_Networks.ipynb
+│   ├── Day-06.ipynb
+│   ├── Day-07.ipynb
+│   ├── Day-08.ipynb
+│   ├── Day-09.ipynb
+│   ├── Day-10-Seq2Seq-Attention.ipynb
+│   └── Day-11-GAN-VAE-RetailMind-AI.ipynb
+│
+├── Outputs/
+│   ├── Day-08/
+│   └── Day-09/
 │
 ├── Src/
-│   └── ...
+│   ├── __init__.py
+│   └── preprocessing.py
 │
+├── .gitignore
+├── requirements.txt
 └── README.md
 ```
 
-## 9. Environment Limitations
-
-The implementation was performed using browser-based Jupyter running Python 3.13.1 on WebAssembly (Emscripten).
-
-The following libraries were unavailable:
-
-- TensorFlow
-- Keras
-- PyTorch
-- Torchvision
-- Ultralytics YOLO
-
-Therefore:
-
-- Pretrained VGG16/ResNet50 training was not performed.
-- Fine-tuning was not performed.
-- YOLO inference was not performed.
-- Product localization was demonstrated using threshold-based image processing.
-
-These limitations are documented to distinguish completed implementation work from the planned deep-learning components.
-
-## 10. Day 7 Outcomes
-
-The following activities were completed:
-
-- Studied Transfer Learning concepts.
-- Explored VGG16 and ResNet50 architectures.
-- Designed a proposed transfer-learning architecture.
-- Studied YOLO and object detection concepts.
-- Implemented basic product localization.
-- Visualized bounding-box coordinates.
-- Identified retail applications of object detection.
-
-## 11. Future Improvements
-
-- Execute ResNet50 or VGG16 transfer learning in a compatible environment.
-- Fine-tune pretrained convolutional layers.
-- Compare transfer-learning accuracy with the Day 6 baseline.
-- Integrate pretrained YOLO for product detection.
-- Implement multi-product detection.
-- Integrate classification and object detection into one vision module.
-- Explore product segmentation and Grad-CAM explainability.
+*The tree above highlights key files; additional outputs and model artifacts may be present. Day 1 is not listed because a separately named Day 1 notebook was not visible in the current repository tree.*
 
 ---
 
-**RetailMind AI – Building an End-to-End Retail Intelligence Platform**
+## Setup
 
-Day 7: Transfer Learning & Object Detection
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/smruty9068/RetailMind-AI.git
+cd RetailMind-AI
+```
+
+### 2. Create and activate a virtual environment (Windows)
+
+```bash
+python -m venv retailmind_env
+retailmind_env\Scripts\activate
+```
+
+### 3. Install dependencies
+
+Install the packages needed for the notebook you want to run. A general starting point is:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install numpy pandas matplotlib seaborn scikit-learn joblib jupyter
+```
+
+For deep-learning and computer-vision notebooks, install compatible versions of TensorFlow and OpenCV in the active environment:
+
+```bash
+python -m pip install tensorflow opencv-python pillow
+```
+
+For the Day 9 YOLO notebook, install Ultralytics if it is required by that notebook:
+
+```bash
+python -m pip install ultralytics
+```
+
+> Package availability depends on your Python version and operating system. Use the same Python environment as your Jupyter kernel. On Windows, TensorFlow may run on CPU depending on the installed TensorFlow version and hardware configuration.
+
+### 4. Launch Jupyter
+
+```bash
+jupyter notebook
+```
+
+Open the relevant notebook from the `Notebooks/` directory.
+
+---
+
+## How to Run
+
+1. Clone the repository and install the dependencies required for the selected notebook.
+2. Open Jupyter Notebook using the project environment.
+3. Open a notebook from `Notebooks/`.
+4. Run the cells from top to bottom.
+5. Check that input data paths point to the repository's `Data/` folder.
+6. Check that model and output paths point to `Models/` or `Outputs/` as appropriate.
+
+Some notebooks expect the working directory to be `Notebooks/` because they use relative paths such as `../Data/` and `../Models/`. If you launch Jupyter from a different directory, adjust the paths or set the notebook working directory accordingly.
+
+---
+
+## Current Scope and Limitations
+
+- The project is a progressive collection of experiments and learning milestones, not yet a single integrated production application.
+- Different stages use different datasets because each technique has a different learning objective.
+- The churn models are trained on the Telco Customer Churn dataset; Fashion-MNIST is used for image tasks.
+- Day 8's Grad-CAM heatmap indicates influential image regions; it is not a pixel-perfect explanation or a general segmentation solution.
+- Day 9's detection outputs are from an image-based demonstration. Real store deployment would require appropriate camera data, validation, tracking, and operational testing.
+- Day 10's forecasting data is synthetic. Performance on it does not establish forecasting accuracy on real store sales.
+- Day 11's generated customer profiles are synthetic. They are not real customer records and should not be used for business decisions without validation.
+- Model files saved in `Models/` are environment- and library-version-dependent. Re-training may be necessary if loading them in a different environment.
+
+---
+
+## Future Improvements
+
+- Add a dedicated Day 1 notebook and make the initial exploration reproducible.
+- Consolidate preprocessing and feature-engineering code into reusable modules under `Src/`.
+- Add a consistent experiment log containing dataset versions, random seeds, model parameters, and evaluation metrics.
+- Evaluate churn models with threshold analysis, calibration, and business-focused retention metrics.
+- Extend computer vision from single-image demonstrations to validated product and shelf datasets.
+- Replace synthetic Day 10 demand data with real time-stamped retail sales and compare against simple forecasting baselines.
+- Validate GAN/VAE generated data with distribution, correlation, utility, and privacy checks.
+- Integrate the separate modules into a unified retail analytics workflow or dashboard.
+
+---
+
+## Author
+
+**Smrutymayee Rout**
+
+GitHub: [@smruty9068](https://github.com/smruty9068)
+
+Repository: [RetailMind-AI](https://github.com/smruty9068/RetailMind-AI)
+
+---
+
+*RetailMind-AI — Exploring machine learning and deep learning techniques for retail intelligence, one milestone at a time.*
